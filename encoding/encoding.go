@@ -29,27 +29,25 @@ type MyEncoder interface {
 
 // Encoding перекодирует файл из JSON в YAML
 func (j *JSONData) Encoding() error {
-	// ниже реализуйте метод
-	//var dockerCompose models.DockerCompose
-	// Прочитать данные из JSON файла
-	jsonFile, err := os.ReadFile(j.FileInput)
+	// Чтение данных из JSON файла
+	jsonData, err := os.ReadFile(j.FileInput)
 	if err != nil {
 		return err
 	}
 
-	// Распаковать JSON данные
-	err = json.Unmarshal(jsonFile, &j.DockerCompose)
+	// Декодирование JSON данных в структуру DockerCompose
+	err = json.Unmarshal(jsonData, &j.DockerCompose)
 	if err != nil {
 		return err
 	}
 
-	// Преобразовать данные в YAML формат
-	yamlData, err := yaml.Marshal(&j.DockerCompose)
+	// Кодирование структуры DockerCompose в YAML
+	yamlData, err := yaml.Marshal(j.DockerCompose)
 	if err != nil {
 		return err
 	}
 
-	// Записать YAML данные в файл
+	// Запись данных в YAML файл
 	err = os.WriteFile(j.FileOutput, yamlData, 0644)
 	if err != nil {
 		return err
@@ -60,28 +58,24 @@ func (j *JSONData) Encoding() error {
 
 // Encoding перекодирует файл из YAML в JSON
 func (y *YAMLData) Encoding() error {
-	// Ниже реализуйте метод
-	//var dockerCompose models.DockerCompose
-
-	// Открыть YAML файл для чтения
-	yamlFile, err := os.ReadFile(y.FileInput)
+	yamlData, err := os.ReadFile(y.FileInput)
 	if err != nil {
 		return err
 	}
 
-	// Распаковать YAML данные
-	err = yaml.Unmarshal(yamlFile, &y.DockerCompose)
+	// Декодирование YAML данных в структуру DockerCompose
+	err = yaml.Unmarshal(yamlData, &y.DockerCompose)
 	if err != nil {
 		return err
 	}
 
-	// Преобразовать данные в JSON формат
-	jsonData, err := json.Marshal(&y.DockerCompose)
+	// Кодирование структуры DockerCompose в JSON
+	jsonData, err := json.Marshal(y.DockerCompose)
 	if err != nil {
 		return err
 	}
 
-	// Записать JSON данные в файл
+	// Запись данных в JSON файл
 	err = os.WriteFile(y.FileOutput, jsonData, 0644)
 	if err != nil {
 		return err
